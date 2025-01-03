@@ -1,45 +1,9 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
 # Distribution / packaging
-build/
-dist/
-*.egg-info/
-*.egg
 pyproject.toml
-
-# Unit test / coverage reports
-.coverage
-.coverage.*
-.cache
-.pytest_cache/
-
-# Environments
-.env
-.venv
-env/
-venv/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# Logs
-*.log
-
-# Local settings
-local_settings.py
-
-# SQLite database
-db.sqlite3
-db.sqlite3-journal
+poetry.lock
 
 # VS Code
 .vscode/
 
 # Data
 *.csv
-*.dat
-*.data
-*.pkl
