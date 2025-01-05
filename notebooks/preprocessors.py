@@ -5,7 +5,7 @@ class TitleExtractor(BaseEstimator, TransformerMixin):
     """
     A custom transformer for extracting titles from strings.
     """
-    def __init__(self, variables=None, list_of_new_col_names=None):
+    def __init__(self, variables, list_of_new_col_names):
         if not isinstance(variables, list):
             raise ValueError("variables should be a list")
         if not isinstance(list_of_new_col_names, list):
@@ -29,3 +29,31 @@ class TitleExtractor(BaseEstimator, TransformerMixin):
             return match.group(1).strip()
         else:
             return title.strip()
+
+class Mapper(BaseEstimator, TransformerMixin):
+    """
+    Maps values of specified variables using provided mappings.
+    """
+
+    def __init__(self, variables, mappings):
+        """
+        Initializes with variables and mappings.
+        """
+        self.variables = variables
+        self.mappings = mappings
+
+    def fit(self, X, y=None):
+        """
+        No fitting necessary.
+        """
+        return self
+    
+    def transform(self, X):
+        """
+        Maps values of specified variables.
+        """
+        X = X.copy()
+        for feature, mapping in zip(self.variables, self.mappings):
+            X[feature] = X[feature].map(mapping)
+        return X
+    
