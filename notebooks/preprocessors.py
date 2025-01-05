@@ -30,6 +30,28 @@ class TitleExtractor(BaseEstimator, TransformerMixin):
         else:
             return title.strip()
 
+class ReplaceCatogories(BaseEstimator, TransformerMixin):
+
+    def __init__(self, variables, list_of_category_to_leave, replace_with='any'):
+        if not isinstance(variables, list):
+            raise ValueError("variables should be a list")
+        if not isinstance(list_of_category_to_leave, list):
+            raise ValueError("list_of_category_to_leave should be a list")
+        self.variables = variables
+        self.list_of_category_to_leave = list_of_category_to_leave
+        self.replace_with = replace_with
+
+    def fit(self, X, y=None):
+        return self
+    
+    def transform(self, X):
+        X = X.copy()
+        for feature, category in zip(self.variables, self.list_of_category_to_leave):
+            X[feature] = X[feature].apply(lambda x: x if x in category else self.replace_with)
+        return X
+
+    
+
 class Mapper(BaseEstimator, TransformerMixin):
     """
     Maps values of specified variables using provided mappings.
@@ -56,4 +78,5 @@ class Mapper(BaseEstimator, TransformerMixin):
         for feature, mapping in zip(self.variables, self.mappings):
             X[feature] = X[feature].map(mapping)
         return X
-    
+
+            
