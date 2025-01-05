@@ -50,7 +50,20 @@ class ReplaceCatogories(BaseEstimator, TransformerMixin):
             X[feature] = X[feature].apply(lambda x: x if x in category else self.replace_with)
         return X
 
+class CastNaOnString(BaseEstimator, TransformerMixin):
+    def __init__(self, variables, string, na):
+        self.variables = variables
+        self.string = string
+        self.na = na
+
+    def fit(self, X, y=None):
+        return self
     
+    def transform(self, X):
+        X = X.copy()
+        for feature in self.variables:
+            X[feature] = X[feature].replace(self.string, self.na)
+        return X
 
 class Mapper(BaseEstimator, TransformerMixin):
     """
@@ -79,4 +92,30 @@ class Mapper(BaseEstimator, TransformerMixin):
             X[feature] = X[feature].map(mapping)
         return X
 
-            
+
+class CastType(BaseEstimator, TransformerMixin):
+    """
+    Casts specified variables to specified type.
+    """
+
+    def __init__(self, variables, dtype):
+        """
+        Initializes with variables and dtype.
+        """
+        self.variables = variables
+        self.dtype = dtype
+
+    def fit(self, X, y=None):
+        """
+        No fitting necessary.
+        """
+        return self
+    
+    def transform(self, X):
+        """
+        Casts specified variables to specified type.
+        """
+        X = X.copy()
+        for feature in self.variables:
+            X[feature] = X[feature].astype(self.dtype)
+        return X
