@@ -1,0 +1,50 @@
+[tool.poetry]
+name = "mlops-titanic"
+version = "0.1.0"
+description = ""
+authors = ["Cezary Angielczyk <cezary.angielczyk@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+joblib = "^1.4.2"
+matplotlib = "^3.10.0"
+category-encoders = "^2.6.4"
+numpy = "1.26.4"
+pandas = "2.2.3"
+scikit-learn = "1.5.2"
+feature-engine = "1.8.1"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
+pytest = "^8.3.4"
+flake8 = "^7.1.1"
+black = "^24.10.0"
+mypy = "^1.14.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+ignore_missing_imports = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+strict_optional = true
+
+[tool.flake8]
+max-line-length = 79
+extend-ignore = "E203"
+statistics = true
+count = true
+show-source = true
+
+[tool.black]
+line-length = 79
+target-version = ['py310']
+include = '\.pyi?$'
