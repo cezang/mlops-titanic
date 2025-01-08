@@ -20,6 +20,7 @@ poetry.lock
 .coverage.*
 htmlcov/
 .pytest_cache/
+.mypy_cache/
 
 # IDEs
 .idea/
