@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import patch, mock_open
 from pathlib import Path
 from pydantic import ValidationError
-from src.config.my_config import ConfigLoader, Config, CONFIGPATH
+from src.config.core import ConfigLoader, Config, CONFIGPATH
 
 
 class TestConfigLoader:
