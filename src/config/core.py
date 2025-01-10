@@ -5,6 +5,7 @@ from pydantic import BaseModel, ValidationError
 
 CONFIGPATH = Path().absolute().parent / "config.yml"
 
+
 class ModelConfig(BaseModel):
     vars: List[str]
     vars_to_replace_category: List[str]
@@ -21,30 +22,33 @@ class ModelConfig(BaseModel):
     dicts_to_map: List[dict]
     vars_to_freq_encode: List[str]
 
+
 class Config(BaseModel):
     model: ModelConfig
 
 
 class ConfigLoader:
-    def __init__(self, config_path=None):
+    def __init__(self, config_path: Path = CONFIGPATH) -> None:
         # Default path to the configuration file
-        self.config_path = Path(config_path or CONFIGPATH)
-        self.config = self.load_config()
+        self.config_path: Path = Path(config_path)
+        self.config: Config = self.load_config()
 
-    def load_config(self):
+    def load_config(self) -> Config:
         # Check if the file exists
         if not self.config_path.exists():
-            raise FileNotFoundError(f"Configuration file not found: {self.config_path}")
-        
+            raise FileNotFoundError(
+                f"Configuration file not found: {self.config_path}"
+            )
+
         # Load the YAML file
         with self.config_path.open("r") as file:
-            raw_config = yaml.safe_load(file)
-        
+            raw_config: dict = yaml.safe_load(file)
+
         # Validate data using Pydantic
         try:
             return Config(**raw_config)
         except ValidationError as e:
             raise ValueError(f"Invalid configuration: {e}")
 
-    def get(self):
+    def get(self) -> Config:
         return self.config

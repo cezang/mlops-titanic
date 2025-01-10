@@ -1,57 +1,68 @@
 import pytest
 from unittest.mock import patch, mock_open
 from pathlib import Path
-from pydantic import ValidationError
-from src.config.core import ConfigLoader, Config, CONFIGPATH
+import yaml
+from src.config.core import ConfigLoader
+from numpy import NaN
 
 
-class TestConfigLoader:
-    """Tests for the ConfigLoader class"""
+@pytest.fixture
+def valid_config_dict() -> dict:
+    """Fixture providing valid configuration data."""
+    return {
+        "model": {
+            "vars": ["var1", "var2"],
+            "vars_to_replace_category": ["var3"],
+            "categories_to_leave": ["category1", "category2"],
+            "replace_with": "unknown",
+            "string_to_na": "N/A",
+            "na_type": NaN,
+            "vars_to_float": ["var4"],
+            "var_to_extract_title": ["var5"],
+            "var_name_of_title": ["title"],
+            "vars_na_to_mean": ["var6"],
+            "vars_na_to_mfrq": ["var7"],
+            "vars_to_map": ["var8"],
+            "dicts_to_map": [{"key1": "value1"}],
+            "vars_to_freq_encode": ["var9"],
+        }
+    }
 
-    @pytest.fixture
-    def valid_config_data(self):
-        """Fixture providing valid YAML configuration data"""
-        return """
-        key1: value1
-        key2: value2
-        """
 
-    @pytest.fixture
-    def invalid_config_data(self):
-        """Fixture providing invalid YAML configuration data"""
-        return """
-        key1: value1
-        key2: 123456  # Assuming Config doesn't accept an integer for this key
-        """
+def test_load_config_valid_file(valid_config_dict: dict) -> None:
+    """Test loading a valid YAML file."""
+    mock_yaml = yaml.dump(valid_config_dict)  # Convert the dictionary to YAML
 
-    def test_load_config_success(self, valid_config_data):
-        """Test successful configuration loading"""
-        with patch("pathlib.Path.open", mock_open(read_data=valid_config_data)):
-            with patch("pathlib.Path.exists", return_value=True):
-                loader = ConfigLoader("test_config.yaml")
-                config = loader.get()
-                assert config.key1 == "value1"
-                assert config.key2 == "value2"
+    # Mocking Path.exists and Path.open
+    with (
+        patch.object(Path, "exists", return_value=True),
+        patch("pathlib.Path.open", mock_open(read_data=mock_yaml)),
+    ):
+        loader = ConfigLoader(config_path="fake/path/to/config.yaml")
+        config = loader.get()
 
-    def test_load_config_file_not_found(self):
-        """Test when the configuration file does not exist"""
-        with patch("pathlib.Path.exists", return_value=False):
-            with pytest.raises(FileNotFoundError, match="Configuration file not found:"):
-                ConfigLoader("nonexistent_config.yaml")
+    assert config.model.vars == ["var1", "var2"]
+    assert config.model.replace_with == "unknown"
 
-    def test_load_config_invalid_data(self, invalid_config_data):
-        """Test invalid data validation"""
-        with patch("pathlib.Path.open", mock_open(read_data=invalid_config_data)):
-            with patch("pathlib.Path.exists", return_value=True):
-                with pytest.raises(ValueError, match="Invalid configuration:"):
-                    ConfigLoader("invalid_config.yaml")
 
-    def test_default_config_path(self, valid_config_data):
-        """Test using the default CONFIGPATH"""
-        with patch("pathlib.Path.open", mock_open(read_data=valid_config_data)):
-            with patch("pathlib.Path.exists", return_value=True):
-                with patch("src.config.my_config.CONFIGPATH", "default_config.yaml"):
-                    loader = ConfigLoader()
-                    config = loader.get()
-                    assert config.key1 == "value1"
-                    assert config.key2 == "value2"
+def test_load_config_missing_file() -> None:
+    """Test handling a missing configuration file."""
+    with patch.object(Path, "exists", return_value=False):
+        with pytest.raises(
+            FileNotFoundError, match="Configuration file not found"
+        ):
+            ConfigLoader(config_path="fake/path/to/config.yaml")
+
+
+def test_load_config_validation_error() -> None:
+    """Test handling validation errors from Pydantic."""
+    invalid_data = {"model": {"vars": "not_a_list"}}  # Invalid data format
+    invalid_yaml = yaml.dump(invalid_data)
+
+    # Mocking Path.exists and Path.open
+    with (
+        patch.object(Path, "exists", return_value=True),
+        patch("pathlib.Path.open", mock_open(read_data=invalid_yaml)),
+    ):
+        with pytest.raises(ValueError, match="Invalid configuration"):
+            ConfigLoader(config_path="fake/path/to/config.yaml")
