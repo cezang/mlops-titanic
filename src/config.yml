@@ -1,48 +1,35 @@
-vars:
-  - pclass
-  - sex
-  - age
-  - sibsp
-  - parch
-  - fare
-  - embarked
-  - name
-  - boat
+model:
+  vars:
+    - pclass
+    - sex
+    - age
+    - sibsp
+    - parch
+    - fare
+    - embarked
+    - name
+    - boat
 
-vars_to_replace_category:
-  - boat
-categories_to_leave:
-  - "?"
-replace_with: "any"
+  vars_to_replace_category:
+    - boat
+  categories_to_leave:
+    - "?"
+  replace_with: "any"
 
-string_to_na: "?"
-na_type: np.NaN
+  string_to_na: "?"
+  na_type: None
 
-vars_to_float:
-  - age
-  - fare
+  vars_to_float:
+    - age
+    - fare
 
-var_to_extract_title:
-  - name
-var_name_of_title:
-  - title
+  var_to_extract_title:
+    - name
+  var_name_of_title:
+    - title
 
-vars_na_to_mean:
-  - age
-  - fare
-vars_na_to_mfreq:
-  - embarked
-
-vars_to_map:
-  - sex
-  - boat
-
-dicts_to_map:
-  - male: 1
-    female: 0
-  - null: 0
-    any: 1
-
-vars_to_freq_encode:
-  - title
-  - embarked
+  vars_na_to_mean:
+    - age
+    - fare
+  vars_na_to_mfreq:
+    - embarked
