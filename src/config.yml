@@ -1,3 +1,7 @@
+app:
+  train_data_file: "train.csv"
+  test_data_file: "test.csv"
+
 model:
   vars:
     - pclass

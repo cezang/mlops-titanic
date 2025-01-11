@@ -4,7 +4,12 @@ import yaml
 from pydantic import BaseModel, ValidationError
 
 CONFIGPATH = Path().absolute() / "src" / "config.yml"
-DATASET_PATH = Path().absolute() / "src" / "data"
+DATASET_DIR = Path().absolute() / "src" / "data"
+
+
+class AppConfig(BaseModel):
+    train_data_file: str
+    test_data_file: str
 
 
 class ModelConfig(BaseModel):
@@ -25,6 +30,7 @@ class ModelConfig(BaseModel):
 
 
 class Config(BaseModel):
+    app: AppConfig
     model: ModelConfig
 
 
