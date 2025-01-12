@@ -1,6 +1,7 @@
 app:
   train_data_file: "train.csv"
   test_data_file: "test.csv"
+  random_state: 42
 
 model:
   vars:
@@ -48,3 +49,5 @@ model:
       female: 0
     - null: 0
       any: 1
+
+  n_estimators: 100
