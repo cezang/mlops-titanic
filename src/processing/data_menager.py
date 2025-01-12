@@ -22,6 +22,3 @@ def load_dataset(file_name: str) -> DataFrame:
         Path(f"{DATASET_DIR}/{file_name}"), usecols=config.model.vars
     )
     return df
-
-
-print(load_dataset(config.app.test_data_file).iloc[99]["name"])

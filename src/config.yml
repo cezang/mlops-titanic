@@ -21,7 +21,8 @@ model:
   replace_with: "any"
 
   string_to_na: "?"
-  na_type: None
+  
+  na_type: null
 
   vars_to_float:
     - age
@@ -37,3 +38,13 @@ model:
     - fare
   vars_na_to_mfreq:
     - embarked
+
+  vars_to_map:
+  - sex
+  - boat
+
+  dicts_to_map:
+    - male: 1
+      female: 0
+    - null: 0
+      any: 1
