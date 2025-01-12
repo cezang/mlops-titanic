@@ -26,7 +26,7 @@ pipe = Pipeline(
         ),
         (
             "cast_type",
-            pp.CastType(variables=config.model.vars_to_float, type=float),
+            pp.CastType(variables=config.model.vars_to_float, dtype=float),
         ),
         (
             "title_extractor",

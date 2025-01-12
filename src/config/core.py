@@ -5,11 +5,14 @@ from pydantic import BaseModel, ValidationError
 
 CONFIGPATH = Path().absolute() / "src" / "config.yml"
 DATASET_DIR = Path().absolute() / "src" / "data"
+TRAINED_MODEL_DIR = Path().absolute() / "src" / "trained_models"
 
 
 class AppConfig(BaseModel):
     train_data_file: str
     test_data_file: str
+    random_state: int
+    pipeline_name: str
 
 
 class ModelConfig(BaseModel):
@@ -27,6 +30,9 @@ class ModelConfig(BaseModel):
     vars_to_map: List[str] = []  # Default empty list
     dicts_to_map: List[dict] = []  # Default empty list
     vars_to_freq_encode: List[str] = []  # Default empty list
+    n_estimators: int
+    test_size: float
+    target: str
 
 
 class Config(BaseModel):
