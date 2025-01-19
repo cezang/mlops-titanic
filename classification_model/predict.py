@@ -1,6 +1,9 @@
-from src.config.core import config
-from src.processing.data_menager import load_pipeline, get_version
-from src.processing.validation import validate_input_data
+from classification_model.config.core import config
+from classification_model.processing.data_menager import (
+    load_pipeline,
+    get_version,
+)
+from classification_model.processing.validation import validate_input_data
 from pandas import DataFrame
 
 pipeline_filename = config.app.pipeline_name + "_" + get_version() + ".pkl"

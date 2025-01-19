@@ -1,7 +1,7 @@
 import pytest
-from src.processing.data_menager import load_dataset
-from src.processing.features import CastNaOnString
-from src.config.core import config
+from classification_model.processing.data_menager import load_dataset
+from classification_model.processing.features import CastNaOnString
+from classification_model.config.core import config
 from pandas import DataFrame
 
 

@@ -1,7 +1,11 @@
 import tomli
 from typing import Any, List
 from pandas import DataFrame, read_csv
-from src.config.core import config, DATASET_DIR, TRAINED_MODEL_DIR
+from classification_model.config.core import (
+    config,
+    DATASET_DIR,
+    TRAINED_MODEL_DIR,
+)
 from pathlib import Path
 from sklearn.pipeline import Pipeline
 import joblib

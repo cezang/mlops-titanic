@@ -1,6 +1,9 @@
-from src.config.core import config
-from src.pipeline import pipe
-from src.processing.data_menager import load_dataset, save_pipeline
+from classification_model.config.core import config
+from classification_model.pipeline import pipe
+from classification_model.processing.data_menager import (
+    load_dataset,
+    save_pipeline,
+)
 from sklearn.model_selection import train_test_split
 
 

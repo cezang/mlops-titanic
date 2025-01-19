@@ -1,8 +1,8 @@
 from pydantic import BaseModel, Field, ValidationError
 from typing import Optional, List, Any
 from pandas import DataFrame
-from src.processing.features import CastNaOnString
-from src.config.core import config
+from classification_model.processing.features import CastNaOnString
+from classification_model.config.core import config
 
 
 class InputDataSchema(BaseModel):

@@ -1,9 +1,9 @@
 from sklearn.pipeline import Pipeline
 from feature_engine.imputation import CategoricalImputer, MeanMedianImputer
 from feature_engine.encoding import CountFrequencyEncoder
-import src.processing.features as pp
+import classification_model.processing.features as pp
 from sklearn.ensemble import RandomForestClassifier
-from src.config.core import config
+from classification_model.config.core import config
 
 
 pipe = Pipeline(

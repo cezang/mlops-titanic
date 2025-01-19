@@ -1,12 +1,12 @@
 from pandas import DataFrame
-from src.processing.features import (
+from classification_model.processing.features import (
     TitleExtractor,
     ReplaceCatogories,
     CastNaOnString,
     Mapper,
     CastType,
 )
-from src.config.core import config
+from classification_model.config.core import config
 
 
 def test_title_extractor(sample_dataset: DataFrame) -> None:

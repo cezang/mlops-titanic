@@ -3,9 +3,11 @@ from typing import List, Any, Optional
 import yaml
 from pydantic import BaseModel, ValidationError
 
-CONFIGPATH = Path().absolute() / "src" / "config.yml"
-DATASET_DIR = Path().absolute() / "src" / "data"
-TRAINED_MODEL_DIR = Path().absolute() / "src" / "trained_models"
+CONFIGPATH = Path().absolute() / "classification_model" / "config.yml"
+DATASET_DIR = Path().absolute() / "classification_model" / "data"
+TRAINED_MODEL_DIR = (
+    Path().absolute() / "classification_model" / "trained_models"
+)
 
 
 class AppConfig(BaseModel):
