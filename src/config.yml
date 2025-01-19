@@ -1,6 +1,7 @@
 app:
   train_data_file: "train.csv"
   test_data_file: "test.csv"
+  test_data_file_with_target: "test_with_target.csv"
   random_state: 42
   pipeline_name: "random_forest"
 
@@ -60,3 +61,18 @@ model:
   test_size: 0.2
 
   target: survived
+
+  vars_to_validate:
+    - pclass
+    - name
+    - sex
+    - age
+    - sibsp
+    - parch
+    - ticket
+    - fare
+    - cabin
+    - embarked
+    - boat
+    - body
+    - home.dest

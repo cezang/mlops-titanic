@@ -11,6 +11,7 @@ TRAINED_MODEL_DIR = Path().absolute() / "src" / "trained_models"
 class AppConfig(BaseModel):
     train_data_file: str
     test_data_file: str
+    test_data_file_with_target: str
     random_state: int
     pipeline_name: str
 
@@ -33,6 +34,7 @@ class ModelConfig(BaseModel):
     n_estimators: int
     test_size: float
     target: str
+    vars_to_validate: List[str]
 
 
 class Config(BaseModel):

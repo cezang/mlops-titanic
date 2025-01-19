@@ -9,7 +9,7 @@ def run_training() -> None:
     # Load data
     data = load_dataset(file_name=config.app.train_data_file)
     X_train, X_test, y_train, y_test = train_test_split(
-        data.drop(config.model.target, axis=1),
+        data[config.model.vars],
         data[config.model.target],
         test_size=config.model.test_size,
         random_state=config.app.random_state,
