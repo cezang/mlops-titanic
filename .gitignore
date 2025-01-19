@@ -1,11 +1,41 @@
-**/__pycache__/*
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.env
+.venv
+env/
+venv/
+ENV/
 
-# Distribution / packaging
-pyproject.toml
+# Poetry
+dist/
 poetry.lock
 
-# VS Code
-.vscode/
+# Testing
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.mypy_cache/
 
-# Data
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Project specific
+data/raw/
+data/processed/
+models/*.joblib
+data/*
+
+#csv
 *.csv
+
+#pkl
+*.pkl
