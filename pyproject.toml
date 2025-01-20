@@ -1,10 +1,15 @@
 [tool.poetry]
 name = "mlops-titanic"
 version = "0.1.0"
-description = ""
+description = "a package created for learning MLOPS purposes"
 authors = ["Cezary Angielczyk <cezary.angielczyk@gmail.com>"]
 readme = "README.md"
-package-mode = false
+package-mode = true
+license = "MIT"
+packages = [
+    { include = "classification_model/*" }]
+
+
 
 [tool.poetry.dependencies]
 python = "^3.10"

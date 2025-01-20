@@ -1,5 +1,5 @@
-import tomli
 from typing import Any, List
+from classification_model.version import __version__
 from pandas import DataFrame, read_csv
 from classification_model.config.core import (
     config,
@@ -9,15 +9,6 @@ from classification_model.config.core import (
 from pathlib import Path
 from sklearn.pipeline import Pipeline
 import joblib
-
-
-def get_version() -> Any:
-    """
-    returns the version from pyproject.toml
-    """
-    with open("pyproject.toml", "rb") as f:
-        pyproject_data = tomli.load(f)
-    return pyproject_data["tool"]["poetry"]["version"]
 
 
 def load_dataset(file_name: str) -> DataFrame:
@@ -40,7 +31,7 @@ def save_pipeline(*, pipeline_to_persist: Pipeline) -> None:
     """
 
     # Prepare versioned save file name
-    save_file_name = f"{config.app.pipeline_name}_{get_version()}.pkl"
+    save_file_name = f"{config.app.pipeline_name}_{__version__}.pkl"
     save_path = TRAINED_MODEL_DIR / save_file_name
 
     remove_old_pipelines(files_to_keep=[save_file_name])
