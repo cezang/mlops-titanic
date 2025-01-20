@@ -1,14 +1,16 @@
 from pathlib import Path
+import importlib.resources
 from typing import List, Any, Optional
 import yaml
 from pydantic import BaseModel, ValidationError
 
-CONFIGPATH = Path().absolute() / "classification_model" / "config.yml"
-DATASET_DIR = Path().absolute() / "classification_model" / "data"
+CONFIGPATH = Path(__file__).parent.parent / "config.yml"
+DATASET_DIR = Path(__file__).parent.parent / "data"
 TRAINED_MODEL_DIR = (
-    Path().absolute() / "classification_model" / "trained_models"
+    Path(__file__).parent.parent / "trained_models"
 )
-
+PACKAGE = "classification_model"
+RESOURCE = "config.yml"
 
 class AppConfig(BaseModel):
     train_data_file: str
@@ -46,12 +48,14 @@ class Config(BaseModel):
 
 def load_config(config_path: Path = CONFIGPATH) -> Config:
     # Check if the file exists
-    if not config_path.exists():
-        raise FileNotFoundError(f"Configuration file not found: {config_path}")
+    # if not config_path.exists():
+    #     raise FileNotFoundError(f"Configuration file not found: {config_path}")
 
     # Load the YAML file
-    with config_path.open("r") as file:
+    with importlib.resources.open_text(PACKAGE, RESOURCE) as file:
         raw_config: dict = yaml.safe_load(file)
+    # with config_path.open("r") as file:
+    #     raw_config: dict = yaml.safe_load(file)
 
     # Validate data using Pydantic
     try:
