@@ -14,14 +14,18 @@ def make_prediction(*, input_data: DataFrame) -> dict:
     data = input_data.copy()
     data_validated, errors = validate_input_data(input_data=data)
     predictions = trained_model.predict(data_validated)
-    results = {"predictions": None, "version": __version__, "errors": errors}
+    results = {
+        "predictions": None,
+        "version": __version__,
+        "errors": errors if isinstance(errors, dict) else {},
+    }
 
     if not errors:
         predictions = trained_model.predict(X=data_validated)
         results = {
-            "predictions": predictions,
+            "predictions": predictions.tolist(),
             "version": __version__,
-            "errors": errors,
+            "errors": errors if isinstance(errors, dict) else {},
         }
 
     return results

@@ -18,12 +18,22 @@ class InputDataSchema(BaseModel):
     embarked: Optional[str]
     boat: Optional[str]
     body: Optional[str]
-    home_dest: Optional[str] = Field(None, alias="home.dest")
+    home_dest: Optional[str] = Field(None, alias="home.dest")  # alias "home.dest"
+
+    class Config:
+        # Setting to allow Pydantic to handle aliases during JSON conversion
+        allow_population_by_field_name = True
+        # Additional options that may help in alias mapping
+        anystr_strip_whitespace = True
 
 
 class MultipleDataInputs(BaseModel):
     inputs: List[InputDataSchema]
 
+class PredictionResult(BaseModel):
+    predictions: list
+    version: str
+    errors: dict = {}
 
 def validate_input_data(*, input_data: DataFrame) -> tuple[Any, str | None]:
     """Validate input data, return input data and errors"""
