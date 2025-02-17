@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pandas import DataFrame
 from classification_model.predict import make_prediction 
 from classification_model.processing.validation import MultipleDataInputs, PredictionResult
+import logging
+import uvicorn
 
 app = FastAPI()
 
@@ -24,10 +26,13 @@ async def predict(input_data: MultipleDataInputs):
     try:
         data_dicts = [item.dict() for item in input_data.inputs] 
         data = DataFrame(data_dicts)
+        logging.info(f"Reading data: {data.head()}")
         data.rename(columns={"home_dest": "home.dest"}, inplace=True)
         prediction_result = make_prediction(input_data=data)
+        logging.info(f"Prediction result: {prediction_result}")
         
         if prediction_result["errors"]:
+            logging.warning(f"Errors encountered: {prediction_result['errors']}")
             raise HTTPException(
                 status_code=400, detail=prediction_result["errors"]
             )
@@ -37,4 +42,3 @@ async def predict(input_data: MultipleDataInputs):
     except Exception as e:
         print("Error occurred:", str(e))
         raise HTTPException(status_code=500, detail=str(e))
-

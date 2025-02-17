@@ -1,0 +1,34 @@
+# Ignorowanie cache i plików pośrednich Pythona
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignorowanie lokalnych środowisk wirtualnych
+.venv/
+.venv-*/
+venv/
+venv-*/
+
+# Ignorowanie cache lintera/testów
+.mypy_cache/
+.pytest_cache/
+
+# Ignorowanie środowiska Tox
+.tox/
+
+# Pliki i foldery narzędzi IDE
+.vscode/
+.idea/
+
+# Repozytorium Gita
+.git/
+
+# Artefakty builda
+dist/
+
+# Folder z notatnikami Jupyter (o ile nie potrzebujesz ich w środowisku runtime)
+notebooks/
+
+# Dodatkowe pliki konfiguracyjne, które nie są wymagane w obrazie
+.gitignore
