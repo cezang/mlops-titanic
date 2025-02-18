@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Predict</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #predictionResult {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+            color: #2c3e50;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
+        .response-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .response-item {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #34495e;
+        }
+
+        .response-item strong {
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formularz Predykcji</h1>
+    
+    <form id="predictionForm">
+        <label for="pclass">Pclass (1, 2, or 3):</label>
+        <input type="number" id="pclass" name="pclass" min="1" max="3" required>
+        <div id="pclassError" class="error"></div><br>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <div id="nameError" class="error"></div><br>
+
+        <label for="sex">Sex (male or female):</label>
+        <input type="text" id="sex" name="sex" required>
+        <div id="sexError" class="error"></div><br>
+
+        <label for="age">Age (0-100):</label>
+        <input type="number" id="age" name="age" min="0" max="100" required>
+        <div id="ageError" class="error"></div><br>
+
+        <label for="sibsp">Sibsp (0-8):</label>
+        <input type="number" id="sibsp" name="sibsp" min="0" max="8" required>
+        <div id="sibspError" class="error"></div><br>
+
+        <label for="parch">Parch (0-6):</label>
+        <input type="number" id="parch" name="parch" min="0" max="6" required>
+        <div id="parchError" class="error"></div><br>
+
+        <label for="ticket">Ticket:</label>
+        <input type="text" id="ticket" name="ticket" required>
+        <div id="ticketError" class="error"></div><br>
+
+        <label for="fare">Fare (0-600):</label>
+        <input type="number" id="fare" name="fare" min="0" max="600" required>
+        <div id="fareError" class="error"></div><br>
+
+        <label for="cabin">Cabin:</label>
+        <input type="text" id="cabin" name="cabin">
+        <div id="cabinError" class="error"></div><br>
+
+        <label for="embarked">Embarked (C, Q, or S):</label>
+        <input type="text" id="embarked" name="embarked" required>
+        <div id="embarkedError" class="error"></div><br>
+
+        <label for="boat">Boat:</label>
+        <input type="text" id="boat" name="boat">
+        <div id="boatError" class="error"></div><br>
+
+        <label for="body">Body:</label>
+        <input type="text" id="body" name="body">
+        <div id="bodyError" class="error"></div><br>
+
+        <label for="home_dest">Home Dest:</label>
+        <input type="text" id="home_dest" name="home_dest">
+        <div id="homeDestError" class="error"></div><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Predykcja:</h2>
+    <div id="predictionResult"></div>
+
+    <script>
+        const form = document.getElementById("predictionForm");
+        const resultDiv = document.getElementById("predictionResult");
+
+        // Validation rules
+        const validationRules = {
+            pclass: (value) => value >= 1 && value <= 3,
+            name: (value) => value.trim() !== "",
+            sex: (value) => ["male", "female"].includes(value.toLowerCase()),
+            age: (value) => value >= 0 && value <= 100,
+            sibsp: (value) => value >= 0 && value <= 8,
+            parch: (value) => value >= 0 && value <= 6,
+            ticket: (value) => value.trim() !== "",
+            fare: (value) => value >= 0 && value <= 600,
+            embarked: (value) => ["C", "Q", "S"].includes(value.toUpperCase()),
+        };
+
+        // Error messages
+        const errorMessages = {
+            pclass: "Pclass must be 1, 2, or 3.",
+            name: "Name is required.",
+            sex: "Sex must be 'male' or 'female'.",
+            age: "Age must be between 0 and 100.",
+            sibsp: "Sibsp must be between 0 and 8.",
+            parch: "Parch must be between 0 and 6.",
+            ticket: "Ticket is required.",
+            fare: "Fare must be between 0 and 600.",
+            embarked: "Embarked must be C, Q, or S.",
+        };
+
+        // Validate form fields
+        function validateForm() {
+            let isValid = true;
+            for (const [field, rule] of Object.entries(validationRules)) {
+                const input = document.getElementById(field);
+                const errorDiv = document.getElementById(`${field}Error`);
+                if (!rule(input.value)) {
+                    errorDiv.textContent = errorMessages[field];
+                    isValid = false;
+                } else {
+                    errorDiv.textContent = "";
+                }
+            }
+            return isValid;
+        }
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            // Validate form
+            if (!validateForm()) {
+                resultDiv.textContent = "Proszę poprawić błędy w formularzu.";
+                return;
+            }
+
+            // Zbieranie danych z formularza
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            // Wysłanie danych do API
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ inputs: [data] })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+
+                    // Format the prediction result
+                    resultDiv.innerHTML = `
+                        <div class="response-header">Predykcja:</div>
+                        <div class="response-item"><strong>Wynik:</strong> ${result.predictions[0] === 0 ? "Nie przeżył" : "Przeżył"}</div>
+                        <div class="response-item"><strong>Wersja modelu:</strong> ${result.version}</div>
+                        <div class="response-item"><strong>Błędy:</strong> ${Object.keys(result.errors).length ? JSON.stringify(result.errors, null, 2) : "Brak"}</div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<div class="response-header" style="color: red;">Wystąpił błąd przy przetwarzaniu danych.</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="response-header" style="color: red;">Błąd: ${error.message}</div>`;
+            }
+        });
+    </script>
+</body>
+</html>
