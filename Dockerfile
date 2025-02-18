@@ -7,8 +7,15 @@ RUN pip install --upgrade pip && pip install poetry
 # Set working directory
 WORKDIR /app
 
+# Set PYTHONPATH
+ENV PYTHONPATH="/app"
+
 # Copy dependency management files to the container
 COPY pyproject.toml poetry.lock* ./
+
+# Skopiowanie pliku modelu do odpowiedniej lokalizacji w obrazie
+# COPY classification_model/trained_models/random_forest_0.1.0.pkl /app/classification_model/trained_models/random_forest_0.1.0.pkl
+
 
 # Configure Poetry to not create a virtual environment
 RUN poetry config virtualenvs.create false \
