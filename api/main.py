@@ -1,9 +1,12 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pandas import DataFrame
 from classification_model.predict import make_prediction 
 from classification_model.processing.validation import MultipleDataInputs, PredictionResult
 import logging
+from pathlib import Path
 import uvicorn
 
 app = FastAPI()
@@ -16,6 +19,14 @@ app.add_middleware(
     allow_methods=["*"],  # Allows all methods (GET, POST, OPTIONS, etc.)
     allow_headers=["*"],  # Allows all headers
 )
+
+# Serwuj statyczne pliki z katalogu 'static'
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Dodaj endpoint dla głównej strony
+@app.get("/")
+async def read_root():
+    return FileResponse("static/index.html")
 
 @app.post("/predict", response_model=PredictionResult)
 async def predict(input_data: MultipleDataInputs):
