@@ -21,12 +21,13 @@ app.add_middleware(
 )
 
 # Serwuj statyczne pliki z katalogu 'static'
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
 
 # Dodaj endpoint dla głównej strony
 @app.get("/")
 async def read_root():
-    return FileResponse("static/index.html")
+    index_path = Path(__file__).parent / "static" / "index.html"
+    return FileResponse(index_path)
 
 @app.post("/predict", response_model=PredictionResult)
 async def predict(input_data: MultipleDataInputs):

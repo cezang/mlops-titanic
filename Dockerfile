@@ -17,6 +17,9 @@ RUN poetry config virtualenvs.create false \
 # Copy the rest of the application code
 COPY . .
 
+# Ensure the static directory exists
+RUN mkdir -p /app/api/static
+
 # Expose the port on which the application will run (optional)
 EXPOSE 8000
 
