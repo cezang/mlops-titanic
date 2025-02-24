@@ -34,4 +34,4 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 EXPOSE 8000
 
 # Run the FastAPI application using uvicorn
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "${PORT:-8000}"]
+CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
