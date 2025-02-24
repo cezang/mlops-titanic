@@ -1,7 +1,5 @@
 from classification_model.config.core import config
-from classification_model.processing.data_menager import (
-    load_pipeline
-)
+from classification_model.processing.data_menager import load_pipeline
 from classification_model.version import __version__
 from classification_model.processing.validation import validate_input_data
 from pandas import DataFrame

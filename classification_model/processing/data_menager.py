@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import List
 from classification_model.version import __version__
 from pandas import DataFrame, read_csv
 from classification_model.config.core import (
