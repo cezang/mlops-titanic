@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Model Predict</title>
+    <title>Model predykcji na podstawie datasetu Titanic</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,6 +65,53 @@
         button:hover {
             background-color: #2980b9;
         }
+        
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #3498db;
+            border-radius: 6px;
+            background-color: #f8f9fa;
+            font-size: 16px;
+            color: #2c3e50;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%233498db" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        select:hover {
+            background-color: #e9ecef;
+            border-color: #2980b9;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        select option {
+            padding: 12px;
+            background-color: white;
+            color: #2c3e50;
+        }
+
+        select option:hover {
+            background-color: #3498db !important;
+            color: white;
+        }
+
+        select option:checked {
+            background-color: #3498db;
+            color: white;
+        }
 
         #predictionResult {
             max-width: 600px;
@@ -103,62 +150,100 @@
     </style>
 </head>
 <body>
-    <h1>Formularz Predykcji</h1>
+    <h1>Model predykcji na podstawie datasetu Titanic</h1>
     
     <form id="predictionForm">
-        <label for="pclass">Pclass (1, 2, or 3):</label>
-        <input type="number" id="pclass" name="pclass" min="1" max="3" required>
+        <!-- Pclass - Klasa biletu -->
+        <label for="pclass">Klasa (1 - pierwsza, 2 - druga, 3 - trzecia):</label>
+        <select id="pclass" name="pclass" required>
+            <option value="">Wybierz klasę</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
         <div id="pclassError" class="error"></div><br>
 
-        <label for="name">Name:</label>
+        <!-- Name - Imię i nazwisko -->
+        <label for="name">Imię i nazwisko:</label>
         <input type="text" id="name" name="name" required>
         <div id="nameError" class="error"></div><br>
 
-        <label for="sex">Sex (male or female):</label>
-        <input type="text" id="sex" name="sex" required>
+        <!-- Sex - Płeć -->
+        <label for="sex">Płeć:</label>
+        <select id="sex" name="sex" required>
+            <option value="">Wybierz płeć</option>
+            <option value="male">Mężczyzna</option>
+            <option value="female">Kobieta</option>
+        </select>
         <div id="sexError" class="error"></div><br>
 
-        <label for="age">Age (0-100):</label>
+        <!-- Age - Wiek -->
+        <label for="age">Wiek (0-100):</label>
         <input type="number" id="age" name="age" min="0" max="100" required>
         <div id="ageError" class="error"></div><br>
 
-        <label for="sibsp">Sibsp (0-8):</label>
-        <input type="number" id="sibsp" name="sibsp" min="0" max="8" required>
+        <!-- SibSp - Rodzeństwo/małżonek -->
+        <label for="sibsp">Rodzeństwo/małżonek na pokładzie (0-8):</label>
+        <select id="sibsp" name="sibsp" required>
+            <option value="">Wybierz liczbę</option>
+            <option value="0">0</option><option value="1">1</option>
+            <option value="2">2</option><option value="3">3</option>
+            <option value="4">4</option><option value="5">5</option>
+            <option value="6">6</option><option value="7">7</option>
+            <option value="8">8</option>
+        </select>
         <div id="sibspError" class="error"></div><br>
 
-        <label for="parch">Parch (0-6):</label>
-        <input type="number" id="parch" name="parch" min="0" max="6" required>
+        <!-- Parch - Rodzice/dzieci -->
+        <label for="parch">Rodzice/dzieci na pokładzie (0-6):</label>
+        <select id="parch" name="parch" required>
+            <option value="">Wybierz liczbę</option>
+            <option value="0">0</option><option value="1">1</option>
+            <option value="2">2</option><option value="3">3</option>
+            <option value="4">4</option><option value="5">5</option>
+            <option value="6">6</option>
+        </select>
         <div id="parchError" class="error"></div><br>
 
-        <label for="ticket">Ticket:</label>
+        <!-- Ticket - Numer biletu -->
+        <label for="ticket">Numer biletu:</label>
         <input type="text" id="ticket" name="ticket" required>
         <div id="ticketError" class="error"></div><br>
 
-        <label for="fare">Fare (0-600):</label>
+        <!-- Fare - Opłata za bilet -->
+        <label for="fare">Opłata za bilet (0-600):</label>
         <input type="number" id="fare" name="fare" min="0" max="600" required>
         <div id="fareError" class="error"></div><br>
 
-        <label for="cabin">Cabin:</label>
+        <!-- Cabin - Kabina -->
+        <label for="cabin">Kabina:</label>
         <input type="text" id="cabin" name="cabin">
         <div id="cabinError" class="error"></div><br>
 
-        <label for="embarked">Embarked (C, Q, or S):</label>
-        <input type="text" id="embarked" name="embarked" required>
+        <!-- Embarked - Port zaokrętowania -->
+        <label for="embarked">Port zaokrętowania (C - Cherbourg, Q - Queenstown, S - Southampton):</label>
+        <select id="embarked" name="embarked" required>
+            <option value="">Wybierz port</option>
+            <option value="C">Cherbourg (C)</option>
+            <option value="Q">Queenstown (Q)</option>
+            <option value="S">Southampton (S)</option>
+        </select>
         <div id="embarkedError" class="error"></div><br>
 
-        <label for="boat">Boat:</label>
+        <!-- Pozostałe pola bez zmian -->
+        <label for="boat">Łódź ratunkowa:</label>
         <input type="text" id="boat" name="boat">
         <div id="boatError" class="error"></div><br>
 
-        <label for="body">Body:</label>
+        <label for="body">Numer identyfikacji ciała:</label>
         <input type="text" id="body" name="body">
         <div id="bodyError" class="error"></div><br>
 
-        <label for="home_dest">Home Dest:</label>
+        <label for="home_dest">Miejsce docelowe:</label>
         <input type="text" id="home_dest" name="home_dest">
         <div id="homeDestError" class="error"></div><br>
 
-        <button type="submit">Submit</button>
+        <button type="submit">Prześlij</button>
     </form>
 
     <h2>Predykcja:</h2>
@@ -168,30 +253,31 @@
         const form = document.getElementById("predictionForm");
         const resultDiv = document.getElementById("predictionResult");
 
-        // Validation rules
-        const validationRules = {
-            pclass: (value) => value >= 1 && value <= 3,
-            name: (value) => value.trim() !== "",
-            sex: (value) => ["male", "female"].includes(value.toLowerCase()),
-            age: (value) => value >= 0 && value <= 100,
-            sibsp: (value) => value >= 0 && value <= 8,
-            parch: (value) => value >= 0 && value <= 6,
-            ticket: (value) => value.trim() !== "",
-            fare: (value) => value >= 0 && value <= 600,
-            embarked: (value) => ["C", "Q", "S"].includes(value.toUpperCase()),
+        // Zaktualizowane komunikaty błędów po polsku
+        const errorMessages = {
+            pclass: "Proszę wybrać klasę podróży (1, 2 lub 3).",
+            name: "Imię i nazwisko jest wymagane.",
+            sex: "Proszę wybrać płeć.",
+            age: "Wiek musi być między 0 a 100.",
+            sibsp: "Proszę wybrać liczbę od 0 do 8.",
+            parch: "Proszę wybrać liczbę od 0 do 6.",
+            ticket: "Numer biletu jest wymagany.",
+            fare: "Opłata za bilet musi być między 0 a 600.",
+            embarked: "Proszę wybrać port zaokrętowania.",
         };
 
-        // Error messages
-        const errorMessages = {
-            pclass: "Pclass must be 1, 2, or 3.",
-            name: "Name is required.",
-            sex: "Sex must be 'male' or 'female'.",
-            age: "Age must be between 0 and 100.",
-            sibsp: "Sibsp must be between 0 and 8.",
-            parch: "Parch must be between 0 and 6.",
-            ticket: "Ticket is required.",
-            fare: "Fare must be between 0 and 600.",
-            embarked: "Embarked must be C, Q, or S.",
+        // Zmodyfikowane reguły walidacji dla pól z dropdown
+        const validationRules = {
+            pclass: (value) => !!value,
+            sex: (value) => !!value,
+            sibsp: (value) => value >= 0 && value <= 8,
+            parch: (value) => value >= 0 && value <= 6,
+            embarked: (value) => !!value,
+            // Pozostałe reguły bez zmian
+            name: (value) => value.trim() !== "",
+            age: (value) => value >= 0 && value <= 100,
+            ticket: (value) => value.trim() !== "",
+            fare: (value) => value >= 0 && value <= 600,
         };
 
         // Validate form fields
